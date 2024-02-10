@@ -1,0 +1,23 @@
+# Use an official Python runtime as the base image
+FROM python:3.9-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /MICROSERVICES
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc libc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the rest of the application code into the container
+COPY . /MICROSERVICES/
+
+# Expose the port on which the Flask app will run
+EXPOSE 5000
+
+# Command to run the Flask application
+CMD ["python", "app.py"]
